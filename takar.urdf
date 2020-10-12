@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<robot name="takar">
+
+  <link name="base">
+    <visual>
+      <geometry>
+        <box size="0.2 0.3 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.3 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+
+  <link name="wheel1">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.2"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+	<cylinder length="0.05" radius="0.2"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <link name="wheel2">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.2"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+	<cylinder length="0.05" radius="0.2"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <joint name="base_link_to_wheel1" type="continuous">
+    <parent link="base"/>
+    <child link="wheel1"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 -0.175 0"/>
+  </joint>
+
+  <transmission name="wheel1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="base_link_to_wheel2">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <joint name="base_link_to_wheel2" type="continuous">
+    <parent link="base"/>
+    <child link="wheel2"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.175 0"/>
+  </joint>
+
+  <transmission name="wheel2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="base_link_to_wheel1">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <gazebo reference="wheel1">
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+
+    <gazebo reference="wheel2">
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>
+
